@@ -1,5 +1,500 @@
-<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>KRISHI SETU</title><style>
-*{box-sizing:border-box}body{margin:0;background:#f7f6ed;color:#173d2d;font-family:Arial,sans-serif}header{display:flex;justify-content:space-between;align-items:center;padding:24px 7%;border-bottom:1px solid #dce1d2}strong.logo{font-size:24px;letter-spacing:2px}small{display:block;color:#657765;letter-spacing:2px}button{font:inherit;cursor:pointer}header button,.outline{border:1px solid #315d43;background:transparent;color:#173d2d;padding:12px 22px;border-radius:40px}main{max-width:1200px;margin:auto;padding:65px 25px} .intro{text-align:center;animation:rise .7s both}.eyebrow{font-size:12px;letter-spacing:3px;color:#657765}h1{font-family:Georgia,serif;font-size:clamp(42px,7vw,80px);font-weight:400;line-height:1;margin:20px 0}h1 em{color:#78934d}p{line-height:1.6;color:#657765}.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:45px}.card{border:1px solid #dce1d2;border-radius:22px;overflow:hidden;background:#fffdf6;transition:transform .35s,box-shadow .35s;animation:rise .8s both}.card:nth-child(2){animation-delay:.12s}.card:nth-child(3){animation-delay:.24s}.card:hover{transform:translateY(-9px);box-shadow:0 22px 45px #173d2d22}.art{height:220px;overflow:hidden;background:#dce8cb}.art svg{width:100%;height:100%;transition:transform .65s}.card:hover svg{transform:scale(1.1)}.copy{padding:25px}.copy h2{font-family:Georgia,serif;font-size:30px;margin:12px 0}.copy p{min-height:76px;font-size:15px}.primary{background:#214c35;color:white;border:0;border-radius:40px;padding:14px 22px;width:100%;transition:background .2s}.primary:hover{background:#477547}footer{text-align:center;padding:25px;border-top:1px solid #dce1d2;font-size:12px;color:#657765}dialog{border:0;border-radius:25px;padding:32px;width:min(440px,92vw);background:#fffdf6;color:#173d2d;box-shadow:0 30px 90px #0004}dialog[open]{animation:pop .3s both}dialog::backdrop{background:#102c23aa;backdrop-filter:blur(6px)}.close{float:right;border:0;background:#e9eddf;border-radius:50%;width:34px;height:34px}.tabs{display:flex;background:#e9eddf;border-radius:30px;padding:4px;margin:22px 0}.tabs button{flex:1;border:0;border-radius:30px;padding:10px;background:transparent;color:#315d43}.tabs .active{background:white;box-shadow:0 2px 8px #0001}label{display:block;font-size:13px;margin:14px 0 6px}input{width:100%;padding:14px;border:1px solid #cdd7c6;border-radius:10px;background:white;font:inherit}input:focus{outline:2px solid #78934d}.hint{background:#edf1e4;padding:12px;border-radius:12px;font-size:12px;margin:16px 0}.error{color:#a33232;font-size:13px}#dashboard{display:none;text-align:center;padding:60px 10px}@keyframes rise{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}@keyframes pop{from{opacity:0;transform:scale(.85) translateY(12px)}to{opacity:1;transform:scale(1) translateY(0)}}@media(max-width:700px){.cards{grid-template-columns:1fr}main{padding-top:35px}.copy p{min-height:0}.art{height:190px}}@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
-</style><header><div><strong class="logo">✳ KRISHI SETU</strong><small>कृषि सेतु · NEPAL</small></div><button id="top">Get started ↗</button></header><main><section id="landing"><div class="intro"><div class="eyebrow">ROOTED IN NEPAL · BUILT FOR EVERYONE</div><h1>From farm<br>to <em>future.</em></h1><p>One bridge between growers, distributors and buyers.<br>Choose your role to get started.</p></div><div class="cards" id="cards"></div></section><section id="dashboard"><div class="eyebrow">DEMO WORKSPACE</div><h1 id="welcome"></h1><p id="services"></p><button class="outline" id="logout">Log out</button></section></main><footer>KRISHI SETU © 2026 · Connecting Nepal's agricultural ecosystem · Demo</footer><dialog id="modal"><button class="close" aria-label="Close" id="close">×</button><small id="roleLabel"></small><h2 id="heading">Welcome back</h2><div class="tabs"><button id="loginTab" class="active">Login</button><button id="signupTab">Sign up</button></div><form id="auth"><div id="nameField" hidden><label for="name">Full name</label><input id="name" autocomplete="name"></div><label for="email">Email address</label><input id="email" type="email" required autocomplete="username" placeholder="you@example.com"><label for="password">Password</label><input id="password" type="password" required autocomplete="current-password"><div class="hint" id="hint"></div><div class="error" id="error" role="alert"></div><button class="primary" id="submit">Login →</button></form></dialog><script>
-const $=id=>document.getElementById(id);const roles=[['Farmer','किसान','Grow your business. Sell your harvest and discover better market opportunities.','famer@gmail.com','farmer','Sell crops · Market prices · Fertilizer and seeds'],['Transporter','ढुवानीकर्ता','Connect farms with markets through reliable collection and distribution.','transporter@gmail.com','transporter','Collection requests · Deliveries · Earnings'],['Distributor','वितरक','Discover fresh produce, connect with growers and purchase with confidence.','distributor@gmail.com','distributor','Browse produce · Orders · Payments']];let selected=0,signup=false;const art=[`<circle cx="245" cy="65" r="38" fill="#f4d48a"/><path d="M0 150 Q80 35 180 150 T360 120 V240 H0" fill="#83a76c"/><path d="M0 175 Q180 90 360 180 V240 H0" fill="#3f754b"/><path d="M180 240 L230 150 M80 240 L160 160 M300 240 L280 170" stroke="#d5dba1" stroke-width="12"/><circle cx="150" cy="100" r="23" fill="#b87950"/><path d="M112 100 Q150 56 188 100" fill="#e5c37d"/><path d="M122 180 L125 125 Q150 110 175 125 L185 180" fill="#f5e8c7"/>`,`<circle cx="280" cy="50" r="34" fill="#f3d58d"/><path d="M0 150 Q90 45 180 150 T360 120 V240 H0" fill="#8ba77b"/><rect y="175" width="360" height="65" fill="#65776a"/><path d="M0 210 H360" stroke="#eee9ce" stroke-width="3" stroke-dasharray="22 15"/><rect x="55" y="95" width="155" height="92" rx="8" fill="#e9c67f"/><path d="M210 125 H260 L300 160 V187 H210Z" fill="#285d42"/><path d="M225 135 H255 L275 157 H225Z" fill="#c8e1d8"/><circle cx="105" cy="190" r="20" fill="#243c32"/><circle cx="260" cy="190" r="20" fill="#243c32"/>`,`<circle cx="180" cy="115" r="90" fill="#f3e4b6"/><path d="M85 125 H275 L250 205 H110Z" fill="#b58a51"/><path d="M125 130 Q180 25 235 130" fill="none" stroke="#805b37" stroke-width="10"/><circle cx="140" cy="120" r="33" fill="#cb6349"/><circle cx="205" cy="115" r="37" fill="#d98243"/><path d="M175 130 Q130 30 190 65 Q235 40 220 130" fill="#578a4d"/><path d="M110 155 H260 M115 180 H255" stroke="#e3c78b" stroke-width="7"/>`];$('cards').innerHTML=roles.map((r,i)=>`<article class="card"><div class="art"><svg viewBox="0 0 360 240" preserveAspectRatio="xMidYMid slice" aria-hidden="true">${art[i]}</svg></div><div class="copy"><small>0${i+1} / ${r[1]}</small><h2>${r[0]}</h2><p>${r[2]}</p><button class="primary" data-role="${i}">Join as ${r[0]} →</button></div></article>`).join('');function mode(s){signup=s;$('loginTab').classList.toggle('active',!s);$('signupTab').classList.toggle('active',s);$('nameField').hidden=!s;$('name').required=s;$('heading').textContent=s?'Create your account':'Welcome back';$('submit').textContent=s?'Create demo account →':'Login →';$('hint').textContent=s?'Demo signup only. No account is saved. Use the fixed credentials to log in.':`Demo email: ${roles[selected][3]} · Password: ${roles[selected][4]}`;$('error').textContent=''}function openRole(i){selected=i;$('auth').reset();$('roleLabel').textContent=roles[i][0]+' / '+roles[i][1];mode(false);$('modal').showModal()}document.querySelectorAll('[data-role]').forEach(b=>b.onclick=()=>openRole(+b.dataset.role));$('close').onclick=()=>$('modal').close();$('loginTab').onclick=()=>mode(false);$('signupTab').onclick=()=>mode(true);$('top').onclick=()=>$('cards').scrollIntoView({behavior:'smooth'});$('auth').onsubmit=e=>{e.preventDefault();let r=roles[selected];if(signup){mode(false);$('error').textContent='Demo signup completed; no account stored. Please use the fixed demo login.';return}if(($('email').value.trim().toLowerCase()===r[3]||(selected===0&&$('email').value.trim().toLowerCase()==='farmer@gmail.com'))&&$('password').value===r[4]){$('modal').close();$('landing').style.display='none';$('dashboard').style.display='block';$('welcome').textContent='Welcome, '+r[0];$('services').textContent=r[5]}else $('error').textContent='Incorrect email or password for this role.'};$('logout').onclick=()=>{$('dashboard').style.display='none';$('landing').style.display='block'};
-</script></html>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KrishiSetu | From Farm to Future</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: #f7f8f1;
+    color: #253c2d;
+}
+
+header {
+    height: 75px;
+    padding: 0 8%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #fff;
+    border-bottom: 1px solid #e7eadf;
+}
+
+.logo {
+    font-size: 25px;
+    font-weight: bold;
+    color: #267442;
+}
+
+.logo span {
+    color: #d49a39;
+}
+
+.hero {
+    text-align: center;
+    padding: 65px 20px 35px;
+}
+
+.hero h1 {
+    font-size: clamp(32px, 5vw, 49px);
+    margin-bottom: 15px;
+}
+
+.hero h1 span {
+    color: #36834d;
+}
+
+.hero p {
+    color: #718071;
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+.cards {
+    max-width: 1100px;
+    margin: 35px auto 70px;
+    padding: 0 20px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+}
+
+.card {
+    background: white;
+    border: 1px solid #e8ecdf;
+    border-radius: 15px;
+    padding: 30px 23px;
+    text-align: center;
+    transition: .25s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 30px #203b2412;
+}
+
+.art {
+    width: 75px;
+    height: 75px;
+    margin: 0 auto 20px;
+    background: #edf5e9;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 35px;
+}
+
+.card h2 {
+    font-size: 22px;
+    margin-bottom: 10px;
+}
+
+.card p {
+    color: #7b8879;
+    font-size: 14px;
+    line-height: 1.6;
+    min-height: 45px;
+}
+
+.card button {
+    width: 100%;
+    margin-top: 23px;
+    padding: 13px;
+    border: none;
+    border-radius: 8px;
+    background: #32834c;
+    color: white;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.card button:hover {
+    background: #24683b;
+}
+
+footer {
+    text-align: center;
+    padding: 22px;
+    color: #899184;
+    border-top: 1px solid #e7eadf;
+    font-size: 13px;
+}
+
+/* Modal */
+
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 10;
+    background: #142219a8;
+    align-items: center;
+    justify-content: center;
+    padding: 15px;
+}
+
+.modal-box {
+    background: white;
+    width: 100%;
+    max-width: 410px;
+    padding: 32px;
+    border-radius: 15px;
+    position: relative;
+}
+
+.close {
+    position: absolute;
+    right: 20px;
+    top: 15px;
+    font-size: 25px;
+    cursor: pointer;
+    color: #777;
+}
+
+.modal-box h2 {
+    margin-bottom: 8px;
+}
+
+.subtitle {
+    color: #879184;
+    font-size: 14px;
+    margin-bottom: 23px;
+}
+
+.modal-box input {
+    width: 100%;
+    padding: 13px;
+    margin-bottom: 14px;
+    border: 1px solid #dfe5d9;
+    border-radius: 8px;
+    outline: none;
+}
+
+.modal-box input:focus {
+    border-color: #32834c;
+}
+
+.submit {
+    width: 100%;
+    padding: 13px;
+    background: #32834c;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-weight: bold;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.switch {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 14px;
+    color: #788477;
+}
+
+.switch span {
+    color: #32834c;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#message {
+    margin-top: 12px;
+    font-size: 13px;
+    text-align: center;
+    color: #c0392b;
+}
+
+@media(max-width: 850px) {
+    .cards {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media(max-width: 600px) {
+    header {
+        padding: 0 20px;
+    }
+
+    .cards {
+        grid-template-columns: 1fr;
+        max-width: 400px;
+    }
+
+    .hero {
+        padding-top: 45px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">KRISHI<span>SETU</span></div>
+</header>
+
+<section class="hero">
+    <h1>From Farm <span>to Future.</span></h1>
+    <p>
+        Connecting farmers, transporters and distributors
+        for a better agricultural network.
+    </p>
+</section>
+
+<section class="cards" id="cards"></section>
+
+<footer>
+    © 2026 KrishiSetu. Connecting Agriculture, Empowering People.
+</footer>
+
+<!-- Login / Registration Modal -->
+
+<div class="modal" id="modal">
+    <div class="modal-box">
+        <span class="close" onclick="closeModal()">&times;</span>
+
+        <h2 id="formTitle">Welcome Back</h2>
+        <p class="subtitle" id="formSubtitle">
+            Login to your KrishiSetu account.
+        </p>
+
+        <form id="authForm">
+            <input
+                type="text"
+                id="name"
+                placeholder="Full Name"
+                style="display:none"
+            >
+
+            <input
+                type="email"
+                id="email"
+                placeholder="Email Address"
+                required
+            >
+
+            <input
+                type="password"
+                id="password"
+                placeholder="Password (minimum 8 characters)"
+                minlength="8"
+                required
+            >
+
+            <button type="submit" class="submit" id="submitBtn">
+                Login
+            </button>
+        </form>
+
+        <p id="message"></p>
+
+        <div class="switch">
+            <span id="switchText">Don't have an account?</span>
+            <span onclick="switchMode()" id="switchButton">
+                Create Account
+            </span>
+        </div>
+    </div>
+</div>
+
+<script>
+const roles = [
+    {
+        name: "Farmer",
+        role: "farmer",
+        description: "Manage your agricultural products and connect with distributors.",
+        icon: "🌾"
+    },
+    {
+        name: "Transporter",
+        role: "transporter",
+        description: "Manage transportation and deliver agricultural products.",
+        icon: "🚚"
+    },
+    {
+        name: "Distributor",
+        role: "distributor",
+        description: "Connect with farmers and manage product distribution.",
+        icon: "🏪"
+    }
+];
+
+const dashboards = {
+    farmer: "farmer.html",
+    transporter: "transporter.html",
+    distributor: "distributor.html"
+};
+
+let selectedRole = "";
+let signupMode = false;
+
+const cards = document.getElementById("cards");
+
+roles.forEach(item => {
+    const card = document.createElement("div");
+    card.className = "card";
+
+    card.innerHTML = `
+        <div class="art">${item.icon}</div>
+        <h2>${item.name}</h2>
+        <p>${item.description}</p>
+        <button type="button">Continue as ${item.name}</button>
+    `;
+
+    card.querySelector("button").addEventListener("click", () => {
+        openModal(item.role);
+    });
+
+    cards.appendChild(card);
+});
+
+function openModal(role) {
+    selectedRole = role;
+    signupMode = false;
+
+    document.getElementById("modal").style.display = "flex";
+    updateForm();
+}
+
+function closeModal() {
+    document.getElementById("modal").style.display = "none";
+    document.getElementById("authForm").reset();
+    document.getElementById("message").textContent = "";
+}
+
+function switchMode() {
+    signupMode = !signupMode;
+    updateForm();
+}
+
+function updateForm() {
+    document.getElementById("formTitle").textContent =
+        signupMode ? "Create Account" : "Welcome Back";
+
+    document.getElementById("formSubtitle").textContent =
+        signupMode
+        ? "Register your KrishiSetu account."
+        : "Login to your KrishiSetu account.";
+
+    document.getElementById("name").style.display =
+        signupMode ? "block" : "none";
+
+    document.getElementById("name").required = signupMode;
+
+    document.getElementById("submitBtn").textContent =
+        signupMode ? "Register" : "Login";
+
+    document.getElementById("switchText").textContent =
+        signupMode ? "Already have an account?" : "Don't have an account?";
+
+    document.getElementById("switchButton").textContent =
+        signupMode ? "Login" : "Create Account";
+
+    document.getElementById("message").textContent = "";
+}
+
+document.getElementById("authForm").addEventListener("submit", async function(e) {
+    e.preventDefault();
+
+    const message = document.getElementById("message");
+    const submitBtn = document.getElementById("submitBtn");
+
+    const email = document.getElementById("email").value.trim().toLowerCase();
+    const password = document.getElementById("password").value;
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Please wait...";
+    message.textContent = "";
+
+    try {
+        if (signupMode) {
+            const name = document.getElementById("name").value.trim();
+
+            const response = await fetch("/api/register", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    name,
+                    email,
+                    password,
+                    role: selectedRole
+                })
+            });
+
+            const data = await response.json();
+
+            if (!response.ok || !data.success) {
+                throw new Error(data.error || "Registration failed.");
+            }
+
+            signupMode = false;
+            updateForm();
+
+            document.getElementById("email").value = email;
+            message.style.color = "#32834c";
+            message.textContent = "Registration successful! Please login.";
+
+        } else {
+            const response = await fetch("/api/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    email,
+                    password
+                })
+            });
+
+            const data = await response.json();
+
+            if (!response.ok || !data.success || !data.user) {
+                throw new Error(data.error || "Invalid email or password.");
+            }
+
+            if (data.user.role !== selectedRole) {
+                await fetch("/api/logout", {
+                    method: "POST"
+                });
+
+                throw new Error(
+                    "This account belongs to a different account type."
+                );
+            }
+
+            window.location.href = dashboards[selectedRole];
+        }
+
+    } catch (error) {
+        message.style.color = "#c0392b";
+        message.textContent = error.message || "Something went wrong.";
+    } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = signupMode ? "Register" : "Login";
+    }
+});
+
+window.addEventListener("click", function(e) {
+    if (e.target === document.getElementById("modal")) {
+        closeModal();
+    }
+});
+</script>
+
+</body>
+</html>
