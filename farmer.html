@@ -1,0 +1,722 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KRISHI SETU - Farmer Dashboard</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: #f7f9f5;
+    color: #293b2d;
+}
+
+header {
+    background: white;
+    padding: 18px 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #e5eae2;
+}
+
+.logo {
+    color: #287442;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.profile {
+    font-size: 14px;
+    color: #526354;
+}
+
+.container {
+    display: flex;
+    min-height: calc(100vh - 65px);
+}
+
+.sidebar {
+    width: 230px;
+    background: white;
+    padding: 25px 15px;
+    border-right: 1px solid #e5eae2;
+    flex-shrink: 0;
+}
+
+.sidebar p {
+    font-size: 11px;
+    color: #999f97;
+    margin: 15px 10px 8px;
+    text-transform: uppercase;
+}
+
+.sidebar a {
+    display: block;
+    text-decoration: none;
+    color: #536354;
+    padding: 12px;
+    font-size: 14px;
+    border-radius: 5px;
+    margin-bottom: 4px;
+    cursor: pointer;
+}
+
+.sidebar a:hover,
+.sidebar a.active {
+    background: #eaf3e8;
+    color: #287442;
+}
+
+main {
+    flex: 1;
+    padding: 32px;
+    min-width: 0;
+}
+
+h1 {
+    font-size: 25px;
+    margin-bottom: 9px;
+}
+
+.subtitle {
+    color: #849084;
+    font-size: 14px;
+    margin-bottom: 28px;
+}
+
+.page {
+    display: none;
+}
+
+.page.active {
+    display: block;
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+    margin-bottom: 28px;
+}
+
+.stat, .panel {
+    background: white;
+    border: 1px solid #e6ebe3;
+    padding: 22px;
+    border-radius: 7px;
+}
+
+.stat p {
+    color: #7c887d;
+    font-size: 13px;
+}
+
+.stat h2 {
+    color: #287442;
+    margin-top: 12px;
+    font-size: 25px;
+}
+
+.panel {
+    margin-bottom: 22px;
+    overflow-x: auto;
+}
+
+.panel h3 {
+    margin-bottom: 18px;
+    font-size: 17px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 530px;
+    font-size: 14px;
+}
+
+th, td {
+    text-align: left;
+    padding: 14px 10px;
+    border-bottom: 1px solid #edf0eb;
+}
+
+th {
+    color: #849084;
+    font-weight: normal;
+}
+
+button {
+    padding: 10px 15px;
+    background: #287442;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 13px;
+}
+
+button:hover {
+    background: #1d5d34;
+}
+
+.light {
+    background: #eaf3e8;
+    color: #287442;
+}
+
+.red {
+    background: #f9e8e6;
+    color: #b34c42;
+}
+
+.status {
+    background: #fff1d7;
+    color: #93691c;
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 12px;
+}
+
+.accepted {
+    background: #e4f2e5;
+    color: #287442;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 17px;
+}
+
+.field label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 13px;
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #dce4d9;
+    border-radius: 5px;
+    outline: none;
+    background: white;
+}
+
+input:focus, select:focus, textarea:focus {
+    border-color: #287442;
+}
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+}
+
+.product {
+    background: white;
+    border: 1px solid #e5eae2;
+    border-radius: 7px;
+    overflow: hidden;
+}
+
+.product img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+}
+
+.product-info {
+    padding: 16px;
+}
+
+.product-info h3 {
+    margin-bottom: 9px;
+}
+
+.product-info p {
+    color: #849084;
+    font-size: 13px;
+    margin-bottom: 10px;
+}
+
+.chat {
+    background: #f8faf6;
+    border: 1px solid #e5eae2;
+    padding: 15px;
+    min-height: 180px;
+    margin-bottom: 12px;
+}
+
+.chat p {
+    background: #e8f1e5;
+    display: table;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 9px;
+    font-size: 14px;
+}
+
+.chat .mine {
+    margin-left: auto;
+    background: #dcebdc;
+}
+
+footer {
+    text-align: center;
+    padding: 20px;
+    color: #879286;
+    font-size: 12px;
+}
+
+@media(max-width: 900px) {
+    .stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media(max-width: 700px) {
+    .container {
+        display: block;
+    }
+
+    .sidebar {
+        width: 100%;
+        display: flex;
+        overflow-x: auto;
+        padding: 10px;
+    }
+
+    .sidebar p {
+        display: none;
+    }
+
+    .sidebar a {
+        white-space: nowrap;
+    }
+
+    main {
+        padding: 18px;
+    }
+
+    .cards {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media(max-width: 500px) {
+    .stats, .cards, .form-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+:root{--forest:#163d30;--green:#286449;--lime:#dce9ad;--ink:#233d32;--muted:#63766b;--line:#e1e7d9;--paper:#f6f5ed}*{font-family:system-ui,-apple-system,'Segoe UI',sans-serif}body{background:radial-gradient(ellipse at top right,#e5ecd5,transparent 50%),var(--paper);color:var(--ink)}header{position:sticky;top:0;z-index:10;background:#fffef8;padding:15px 32px;box-shadow:0 3px 18px #173e3209}.logo{display:flex;align-items:center;gap:12px;color:var(--forest);letter-spacing:1.5px;font-size:21px}.brandmark{display:grid;place-items:center;width:43px;height:43px;background:var(--forest);color:var(--lime);border-radius:13px}.brandmark svg{width:25px;height:25px}.logo small{display:block;font-size:10px;letter-spacing:2px;color:var(--muted);margin-top:3px}.profile{background:#edf1e5;padding:10px 16px;border-radius:30px}.profile a{color:var(--green)}.sidebar{width:245px;background:linear-gradient(165deg,#194535,#102c25);border:0;padding:25px 15px}.sidebar p{color:#b5c8b8;letter-spacing:1.6px;margin-top:24px}.sidebar a{display:flex;align-items:center;gap:12px;color:#e1eadf;border-radius:12px;padding:13px;transition:all .25s}.sidebar a:hover{background:#ffffff18;color:white;transform:translateX(3px)}.sidebar a.active{background:var(--lime);color:var(--forest);font-weight:700}.nav-icon{width:22px;text-align:center;font-size:20px}main{padding:32px clamp(18px,3vw,45px)}h1{font-family:Georgia,serif;font-weight:400;font-size:clamp(32px,4vw,46px);letter-spacing:-1px;color:var(--forest)}.subtitle{color:var(--muted);line-height:1.6}.hero{position:relative;isolation:isolate;overflow:hidden;background:#183e31;border-radius:25px;padding:35px;min-height:300px;margin-bottom:25px;box-shadow:0 14px 35px #163e3222}.hero h1{color:white;max-width:52%;font-size:clamp(35px,4.5vw,60px);line-height:1.04;margin:20px 0 12px}.hero .subtitle{color:#e1ead9;max-width:48%;margin-bottom:22px}.hero-label{font-size:11px;letter-spacing:2px;color:var(--lime)}.hero button{background:var(--lime);color:var(--forest)}.hero-art{position:absolute;right:0;bottom:0;width:65%;height:100%;z-index:-1;mask-image:linear-gradient(to right,transparent,#000 32%);animation:sceneIn 1s both;transition:transform .7s}.hero:hover .hero-art{transform:scale(1.05)}.cloud{animation:drift 12s ease-in-out infinite alternate}.truck-motion{animation:drive 5s ease-in-out infinite alternate}.page.active{animation:enter .4s both}.stat,.panel,.product{background:#fffefb;border:1px solid var(--line);border-radius:19px;box-shadow:0 7px 25px #173e3209}.stat{position:relative;overflow:hidden;animation:pop .65s both;transition:transform .3s}.stat:after{content:'';position:absolute;width:90px;height:90px;border:15px solid #e8eedb;border-radius:50%;right:-30px;bottom:-40px;pointer-events:none}.stat:nth-child(2){animation-delay:.08s}.stat:nth-child(3){animation-delay:.16s}.stat:nth-child(4){animation-delay:.24s}.stat:hover,.product:hover{transform:translateY(-5px);box-shadow:0 15px 30px #173e3218}.stat h2{font-size:32px;color:var(--forest)}.stat p{font-weight:600}.panel h3,.product h3{color:var(--forest)}th{background:#f0f3e9;text-transform:uppercase;font-size:11px;letter-spacing:.6px;font-weight:600}td{padding:17px 12px}tr:hover td{background:#f8faf4}button{border-radius:30px;background:var(--green);padding:12px 19px;font-weight:600;transition:transform .2s,background .2s}button:hover{transform:translateY(-2px);background:var(--forest)}.light:hover{color:white}.status{font-weight:600;white-space:nowrap}input,select,textarea{border-radius:12px;padding:14px;font:inherit}.product{transition:transform .3s,box-shadow .3s;animation:pop .6s both}.product:nth-child(2){animation-delay:.12s}.product:nth-child(3){animation-delay:.24s}.product img{height:210px;display:block;transition:transform .65s;object-fit:cover}.product:hover img{transform:scale(1.055)}.product-info{position:relative;background:#fffefb;padding:22px}.product-info strong{color:var(--green);font-size:22px}.product-info button{margin-bottom:5px}.chat{border-radius:15px;min-height:230px}.chat p{border-radius:15px;animation:pop .25s both}.chat .mine{background:#dce9ad}footer{background:var(--forest);color:#d5e1d4}button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid #91b36c;outline-offset:3px}@keyframes enter{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}@keyframes pop{from{opacity:0;transform:scale(.92) translateY(14px)}to{opacity:1;transform:scale(1)}}@keyframes sceneIn{from{opacity:0;transform:scale(1.14)}to{opacity:1;transform:scale(1)}}@keyframes drift{to{transform:translateX(75px)}}@keyframes drive{to{transform:translateX(42px)}}@media(max-width:1000px){.cards{grid-template-columns:repeat(2,minmax(0,1fr))}.sidebar{width:205px}}@media(max-width:700px){header{padding:12px 15px}.logo{font-size:16px}.profile{font-size:11px;padding:8px}.sidebar{width:100%;padding:9px;gap:5px}.sidebar a{padding:10px}.hero{padding:24px;min-height:365px}.hero h1,.hero .subtitle{max-width:100%}.hero-art{width:100%;height:48%;mask-image:linear-gradient(to bottom,transparent,#000 35%)}main{padding:18px 14px}}@media(max-width:500px){.cards,.form-grid{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.stat{padding:14px}.stat h2{font-size:24px}.profile{max-width:105px}.panel{padding:15px}}@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+
+.analytics{display:grid;grid-template-columns:1.5fr 1fr;gap:20px}.charthead{display:flex;justify-content:space-between;align-items:center;gap:10px}.analytics small{color:#63766b;letter-spacing:1px;font-size:10px}.barrow{margin:18px 0}.barlabel{display:flex;justify-content:space-between;font-size:13px;margin-bottom:7px}.track{height:14px;background:#edf1e5;border-radius:20px;overflow:hidden}.fill{height:100%;background:linear-gradient(90deg,#286449,#a6c76b);border-radius:20px;transform-origin:left;animation:grow .9s both}.ring{width:145px;aspect-ratio:1;margin:15px auto;border-radius:50%;display:grid;place-items:center;background:conic-gradient(#43845a var(--pct,0%),#e9eedf 0)}.ring strong{display:grid;place-items:center;width:110px;aspect-ratio:1;border-radius:50%;background:#fffefb;font-size:28px}.analytics #progressText{text-align:center;color:#63766b;font-size:13px}.profile button{padding:8px 15px}.receipt{display:flex;gap:7px;align-items:center;white-space:nowrap}.receipt input{width:18px;height:18px;accent-color:#286449}.receipt label{cursor:pointer}#toast{position:fixed;bottom:24px;right:24px;max-width:85vw;background:#173e32;color:white;padding:16px 24px;border-radius:15px;z-index:30;opacity:0;pointer-events:none;transition:.3s;transform:translateY(15px)}#toast.visible{opacity:1;transform:translateY(0)}.ticket{padding:14px;border-bottom:1px solid #e1e7d9;overflow-wrap:anywhere}.hero h1{max-width:55%}@keyframes grow{from{transform:scaleX(0)}to{transform:scaleX(1)}}@media(max-width:850px){.analytics{grid-template-columns:1fr}}@media(max-width:700px){.hero h1{max-width:100%}.profile{max-width:none}.profile button{padding:5px 9px}}
+
+header{background:#fffef8d9;backdrop-filter:blur(18px)}.panel,.stat{background:#fffefbdc;backdrop-filter:blur(12px)}.paydialog{margin:auto;width:min(540px,94vw);max-height:90vh;overflow:auto;border:1px solid #fff9;border-radius:26px;padding:26px;background:#f9faf1f5;color:var(--ink);box-shadow:0 30px 100px #102c2555}.paydialog[open]{animation:pop .35s both}.paydialog::backdrop{background:#102c2580;backdrop-filter:blur(9px)}.paydialog h2{font-family:Georgia,serif;font-size:30px;margin:12px 0}.payclose{float:right;background:#e6ecdd;color:var(--forest)}.paymethods{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:15px 0}.paymethod{display:flex;align-items:center;gap:9px;padding:13px;border:1px solid #dce5d5;border-radius:14px;background:#fff;cursor:pointer;transition:.2s}.paymethod:hover{transform:translateY(-2px)}.paymethod:has(input:checked){border-color:#286449;background:#e9f2df}.paymethod input{width:auto;accent-color:#286449}.paymethod strong{font-size:13px}.payline{display:flex;justify-content:space-between;gap:12px;padding:9px 0}.paytotal{border-top:1px solid #dce5d5;font-size:20px;font-weight:700}.paynote{font-size:12px;color:#63766b;line-height:1.6;margin:12px 0}.paydialog .payconfirm{width:100%;margin-top:10px}.paypill{display:inline-block;padding:5px 10px;border-radius:20px;background:#e8eedb;color:#28563e;font-size:12px;white-space:nowrap}.paymetrics{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px}.paymetrics .stat h2{font-size:24px}@media(max-width:600px){.paymetrics{grid-template-columns:1fr}.paydialog{padding:18px}}
+
+header{background:#fffef8dd;backdrop-filter:blur(18px)}.panel,.stat,.product{border-radius:22px;background:#ffffffd9;box-shadow:0 8px 30px #173e3209}.products{grid-template-columns:repeat(auto-fit,minmax(210px,1fr))}.product{overflow:hidden;animation:pop .5s both}.product img{transition:transform .5s}.product:hover img{transform:scale(1.07)}.supplyart{height:140px;display:grid;place-items:center;background:linear-gradient(145deg,#e6edcf,#b7d3a3);font-size:65px;transition:transform .4s}.product:hover .supplyart{transform:scale(1.06)}.product-info p{color:#526b59}.toolbar{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:20px}.toolbar input,.toolbar select{flex:1;min-width:150px}.bartrack{height:12px;background:#e5eadb;border-radius:20px;overflow:hidden;margin:8px 0 16px}.barfill{height:100%;background:linear-gradient(90deg,#387b52,#b1c96f);border-radius:20px;animation:grow .7s both;transform-origin:left}@keyframes grow{from{transform:scaleX(0)}to{transform:scaleX(1)}}dialog{margin:auto;border:0;border-radius:24px;padding:28px;width:min(460px,92vw);color:#173e32;background:#fffef8;box-shadow:0 30px 100px #0005}dialog[open]{animation:pop .3s both}dialog::backdrop{background:#102c2599;backdrop-filter:blur(7px)}dialog label{display:block;margin:14px 0 6px}dialog button{margin-top:15px}.note{font-size:13px;color:#63766b;line-height:1.6;margin:12px 0}.toast{position:fixed;bottom:22px;right:22px;background:#173e32;color:white;padding:16px 22px;border-radius:15px;z-index:50;box-shadow:0 10px 30px #0003}.sidebar a{white-space:nowrap}.stat h2{font-size:30px}button:disabled{opacity:.5;cursor:not-allowed}@media(max-width:850px){.sidebar{width:100%;display:flex;overflow:auto}.sidebar p{display:none}.container{display:block}.sidebar a{flex-shrink:0}.hero{min-height:260px}}@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+
+.stats{grid-template-columns:repeat(3,minmax(0,1fr))}.field.full{grid-column:1/-1}.analytics .panel{min-width:0}.sidebar a{white-space:normal}.profile{max-width:none}.supplyart{height:190px}.product-info button{width:100%}.product-info h3{font-size:19px}.product-info p{line-height:1.6}.hero{margin-bottom:25px}.bartrack{height:14px}.charthead h3{margin-top:6px}.page>h1{margin-top:5px}.page>button{margin-bottom:12px}.panel table{min-width:530px}.sidebar{flex-shrink:0}.paydialog label.paymethod{margin:0}.paymethod input{width:auto}.paydialog .payline{margin:0}.paydialog .paynote{margin:12px 0}@media(max-width:850px){.sidebar a{white-space:nowrap}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:500px){.products{grid-template-columns:1fr}.paymethods{grid-template-columns:1fr}.hero{min-height:365px}.hero h1{max-width:100%}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo"><span class="brandmark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 22V10M12 15C4 15 3 9 3 5c6 0 9 4 9 10ZM12 12c0-7 4-10 9-10 0 6-3 10-9 10Z"/></svg></span><span>KRISHI SETU<small>कृषि सेतु · NEPAL</small></span></div>
+    <div class="profile">Farmer Account · <button onclick="showPage('overview')">⌂ Home</button></div>
+</header>
+
+<div class="container">
+
+<aside class="sidebar">
+    <p>Dashboard</p>
+    <a role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click()}" class="active" onclick="showPage('overview',this)"><span class="nav-icon" aria-hidden="true">⌂</span>Home</a>
+    <a role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click()}" onclick="showPage('products',this)"><span class="nav-icon" aria-hidden="true">▦</span>My Products</a>
+    <a role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click()}" onclick="showPage('add',this)"><span class="nav-icon" aria-hidden="true">＋</span>Add Product</a>
+    <a role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click()}" onclick="showPage('orders',this)"><span class="nav-icon" aria-hidden="true">▤</span>Distributor Orders</a>
+
+    <p>Marketplace</p>
+    <a role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click()}" onclick="showPage('supplies',this)"><span class="nav-icon" aria-hidden="true">♧</span>Buy Farm Supplies</a>
+    <a role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click()}" onclick="showPage('buyers',this)"><span class="nav-icon" aria-hidden="true">♙</span>Find Buyers</a>
+    <a role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click()}" onclick="showPage('prices',this)"><span class="nav-icon" aria-hidden="true">↗</span>Market Prices</a>
+
+    <p>Communication</p>
+    <a role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click()}" onclick="showPage('messages',this)"><span class="nav-icon" aria-hidden="true">✉</span>Messages</a>
+
+    <p>Business</p>
+    <a role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click()}" onclick="showPage('transport',this)"><span class="nav-icon" aria-hidden="true">▱</span>Transportation</a>
+    <a role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click()}" onclick="showPage('sales',this)"><span class="nav-icon" aria-hidden="true">◷</span>Sales History</a><a role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click()}" onclick="showPage('purchases',this)"><span class="nav-icon" aria-hidden="true">◈</span>Supply Purchases</a><p>Support</p><a role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click()}" onclick="showPage('about',this)"><span class="nav-icon" aria-hidden="true">ⓘ</span>About Us</a><a role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();this.click()}" onclick="showPage('complaints',this)"><span class="nav-icon" aria-hidden="true">⚑</span>Complaints & Support</a>
+</aside>
+
+<main>
+
+<!-- OVERVIEW -->
+<div class="page active" id="overview">
+
+<div class="hero"><div class="hero-label">FARMER WORKSPACE / NEPAL</div><h1>Grow more. Earn better.</h1><p class="subtitle">Your harvest, your market, your future.</p><button onclick="showPage('add')">Publish your harvest →</button><svg class="hero-art" viewBox="0 0 650 330" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><defs><linearGradient id="sky" x2="0" y2="1"><stop stop-color="#9dc9ae"/><stop offset="1" stop-color="#f6e9b3"/></linearGradient><linearGradient id="hill" x2="0" y2="1"><stop stop-color="#a7c46d"/><stop offset="1" stop-color="#397b50"/></linearGradient></defs><rect width="650" height="330" fill="url(#sky)"/><circle cx="495" cy="65" r="45" fill="#fff0b4"/><g class="cloud" fill="#fff9e4" opacity=".8"><ellipse cx="130" cy="54" rx="65" ry="13"/><ellipse cx="110" cy="45" rx="30" ry="20"/><ellipse cx="151" cy="42" rx="35" ry="24"/></g><path d="M0 175L105 57 164 112 245 25 350 140 430 68 570 178 650 90V330H0" fill="#7a9c9b"/><path d="M105 57L72 94 104 82 130 100 164 112 245 25 198 88 245 65 281 90 310 98 245 25M430 68l-36 43 38-16 39 17Z" fill="#f5f3df"/><path d="M0 185Q120 90 300 185T650 140V330H0" fill="#648f61"/><path d="M0 240Q140 125 310 211T650 165V330H0" fill="url(#hill)"/><g fill="none" stroke="#d8dc91" stroke-width="4" opacity=".8"><path d="M0 240Q140 150 310 226T650 180"/><path d="M0 258Q140 170 310 244T650 199"/><path d="M0 276Q140 190 310 262T650 218"/><path d="M0 294Q140 210 310 280T650 237"/></g><g transform="translate(460 142)"><rect x="0" y="20" width="65" height="45" fill="#f4dbac"/><path d="M-8 22L32 -5 73 22Z" fill="#a75539"/><rect x="26" y="40" width="15" height="25" fill="#795b43"/><rect x="7" y="30" width="13" height="13" fill="#456b65"/></g><path d="M0 330Q210 250 650 285" fill="none" stroke="#e5d3a5" stroke-width="52"/><path d="M0 330Q210 250 650 285" fill="none" stroke="#fff4d5" stroke-width="2" stroke-dasharray="12 12"/><g class="truck-motion"><g transform="translate(350 222)"><ellipse cx="68" cy="67" rx="78" ry="8" fill="#234a36" opacity=".25"/><rect width="89" height="55" rx="8" fill="#f2d38b"/><path d="M89 15h27l23 25v15H89Z" fill="#fff8e5"/><path d="M99 22h15l14 17H99Z" fill="#6c9c91"/><rect x="10" y="10" width="65" height="34" rx="4" fill="#e4b96d"/><path d="M42 37V17m0 10q-17 0-15-13 15 0 15 13m0-3q15 0 15-13-15 0-15 13" fill="none" stroke="#37684b" stroke-width="3"/><circle cx="25" cy="56" r="12" fill="#243e34"/><circle cx="112" cy="56" r="12" fill="#243e34"/><circle cx="25" cy="56" r="5" fill="#c4c9a8"/><circle cx="112" cy="56" r="5" fill="#c4c9a8"/></g></g></svg></div>
+
+<div class="stats">
+    <div class="stat">
+        <p>My Products</p>
+        <h2 id="totalProducts">3</h2>
+    </div>
+    <div class="stat">
+        <p>Available Stock</p>
+        <h2 id="stockTotal">1,600 kg</h2>
+    </div>
+    <div class="stat">
+        <p>New Orders</p>
+        <h2 id="totalOrders">1</h2>
+    </div>
+</div>
+
+<div class="analytics"><section class="panel"><div class="charthead"><div><small>FARM ANALYTICS</small><h3>Harvest inventory analytics</h3></div><button class="light" onclick="refresh()">↻ Refresh</button></div><div id="farmGraph"></div></section><section class="panel"><small>ORDER FULFILMENT</small><h3>Dispatch progress</h3><div class="ring" id="farmRing"><strong id="farmPercent">0%</strong></div><p id="progressText"></p></section></div><div class="panel"><h3>Recent Orders</h3>
+    <table>
+        <tr><th>Distributor</th><th>Product</th><th>Quantity</th><th>Status</th></tr>
+        <tr><td>ABC Agro</td><td>Tomatoes</td><td>100 kg</td><td><span class="status">Pending</span></td></tr>
+        <tr><td>Green Market</td><td>Potatoes</td><td>200 kg</td><td><span class="status accepted">Accepted</span></td></tr>
+    </table>
+</div>
+
+<button onclick="showPage('add')">+ Add New Product</button>
+<button class="light" onclick="showPage('orders')">View Orders</button>
+
+</div>
+
+<!-- PRODUCTS -->
+<div class="page" id="products">
+
+<h1>My Products</h1>
+<p class="subtitle">Manage your available agricultural products.</p>
+
+<div class="panel">
+<table id="productTable">
+<tr><th>Product</th><th>Quantity</th><th>Price/kg</th><th>Location</th><th>Action</th></tr>
+<tr>
+<td>Tomatoes</td><td>500 kg</td><td>Rs. 40</td><td>Itahari</td>
+<td><button class="light" onclick="editProduct(this)">Edit</button>
+<button class="red" onclick="deleteProduct(this)">Delete</button></td>
+</tr>
+<tr>
+<td>Potatoes</td><td>800 kg</td><td>Rs. 35</td><td>Biratnagar</td>
+<td><button class="light" onclick="editProduct(this)">Edit</button>
+<button class="red" onclick="deleteProduct(this)">Delete</button></td>
+</tr>
+<tr>
+<td>Cabbage</td><td>300 kg</td><td>Rs. 25</td><td>Dharan</td>
+<td><button class="light" onclick="editProduct(this)">Edit</button>
+<button class="red" onclick="deleteProduct(this)">Delete</button></td>
+</tr>
+</table>
+</div>
+
+<button onclick="showPage('add')">+ Add Product</button>
+</div>
+
+<!-- ADD PRODUCT -->
+<div class="page" id="add">
+
+<h1>Add New Product</h1>
+<p class="subtitle">Share your harvest with buyers across Nepal.</p>
+
+<div class="panel">
+<form id="productForm">
+<div class="form-grid">
+
+<div class="field">
+<label>Product Name</label>
+<input id="name" placeholder="e.g. Tomatoes" required>
+</div>
+
+<div class="field">
+<label>Category</label>
+<select id="category">
+<option>Vegetables</option>
+<option>Fruits</option>
+<option>Grains</option>
+<option>Seeds</option>
+<option>Other</option>
+</select>
+</div>
+
+<div class="field">
+<label>Available Quantity (kg)</label>
+<input type="number" id="quantity" required min="1" placeholder="500">
+</div>
+
+<div class="field">
+<label>Price per kg (Rs.)</label>
+<input type="number" id="price" required min="1" placeholder="40">
+</div>
+
+<div class="field">
+<label>Harvest Date</label>
+<input type="date" id="date">
+</div>
+
+<div class="field">
+<label>Location</label>
+<input id="location" placeholder="e.g. Itahari">
+</div>
+
+<div class="field full">
+<label>Product Image</label>
+<input type="file" id="image" accept="image/*">
+</div>
+
+<div class="field full">
+<label>Description</label>
+<textarea id="description" rows="3" placeholder="Tell buyers about your product"></textarea>
+</div>
+
+</div>
+<br>
+<button type="button" class="light" onclick="saveDraft()">Save Draft</button>
+<button type="submit">Publish Product</button>
+</form>
+</div>
+</div>
+
+<!-- ORDERS -->
+<div class="page" id="orders">
+
+<h1>Distributor Orders</h1>
+<p class="subtitle">Check and manage your incoming orders.</p>
+
+<div class="panel">
+<table id="orderTable">
+<tr><th>Distributor</th><th>Product</th><th>Quantity</th><th>Status</th><th>Action</th></tr>
+
+<tr>
+<td>ABC Agro</td><td>Tomatoes</td><td>100 kg</td>
+<td><span class="status">Pending</span></td>
+<td><button onclick="orderAction(this,'Accepted')">Accept</button>
+<button class="red" onclick="orderAction(this,'Rejected')">Reject</button></td>
+</tr>
+
+<tr>
+<td>Green Market</td><td>Potatoes</td><td>200 kg</td>
+<td><span class="status accepted">Accepted</span></td>
+<td><button class="light" onclick="alert('Delivery status: Processing')">Details</button></td>
+</tr>
+</table>
+</div>
+</div>
+
+<!-- FARM SUPPLIES -->
+<div class="page" id="supplies">
+<h1>Buy Farm Supplies</h1>
+<p class="subtitle">Find supplies for your next harvest.</p>
+
+<div class="panel"><h3>Find supplies for your crop</h3><div class="toolbar"><input id="cropSearch" placeholder="Search cauliflower, tomato, potato..." oninput="renderSupplies()"><select id="supplyType" onchange="renderSupplies()"><option value="all">All supplies</option><option>Seeds</option><option>Fertilizers</option><option>Tools</option></select></div><p class="note">Illustrative catalogue and prices. Fertilizer suitability and application depend on soil tests, crop stage and local agricultural advice.</p></div><div class="products" id="supplyCards"></div></div>
+<!-- BUYERS -->
+<div class="page" id="buyers">
+<h1>Find Buyers & Distributors</h1>
+<p class="subtitle">Connect with people interested in your harvest.</p>
+
+<div class="panel">
+<table>
+<tr><th>Name</th><th>Location</th><th>Interested In</th><th>Action</th></tr>
+<tr><td>ABC Agro</td><td>Biratnagar</td><td>Vegetables</td><td><button onclick="contact('ABC Agro')">Message</button></td></tr>
+<tr><td>Green Market</td><td>Itahari</td><td>Fresh Produce</td><td><button onclick="contact('Green Market')">Message</button></td></tr>
+<tr><td>Nepal Agro</td><td>Dharan</td><td>Farm Products</td><td><button onclick="contact('Nepal Agro')">Message</button></td></tr>
+</table>
+</div>
+</div>
+
+<!-- PRICES -->
+<div class="page" id="prices">
+<h1>Market Prices</h1>
+<p class="subtitle">Example prices for comparison.</p>
+<div class="panel">
+<table>
+<tr><th>Product</th><th>Local Price/kg</th><th>Other Market Price/kg</th></tr>
+<tr><td>Tomatoes</td><td>Rs. 40</td><td>Rs. 45</td></tr>
+<tr><td>Potatoes</td><td>Rs. 35</td><td>Rs. 38</td></tr>
+<tr><td>Cabbage</td><td>Rs. 25</td><td>Rs. 30</td></tr>
+</table>
+</div>
+</div>
+
+<!-- MESSAGES -->
+<div class="page" id="messages">
+<h1>Messages</h1>
+<p class="subtitle">Communicate with buyers and suppliers.</p>
+
+<div class="panel">
+<h3 id="chatTitle">Chat with KRISHI SETU</h3>
+<div class="chat" id="chatBox">
+<p>Hello! Welcome to KRISHI SETU.</p>
+</div>
+<div style="display:flex;gap:10px">
+<input id="message" placeholder="Write a message...">
+<button onclick="sendMessage()">Send</button>
+</div>
+</div>
+</div>
+
+<!-- TRANSPORT -->
+<div class="page" id="transport">
+<h1>Transportation</h1>
+<p class="subtitle">Arrange delivery for your agricultural products.</p>
+<div class="panel">
+<h3>Delivery Requests</h3>
+<p>No active delivery requests.</p>
+<br>
+<button onclick="alert('Request submitted (demo).')">Request Transport</button>
+</div>
+</div>
+
+<!-- SALES -->
+<div class="page" id="sales">
+<h1>Sales History</h1>
+<p class="subtitle">Review your previous transactions.</p>
+<div class="panel">
+<table>
+<tr><th>Product</th><th>Quantity</th><th>Amount</th><th>Status</th></tr>
+<tr><td>Tomatoes</td><td>100 kg</td><td>Rs. 4,000</td><td><span class="status accepted">Completed</span></td></tr>
+<tr><td>Potatoes</td><td>200 kg</td><td>Rs. 7,000</td><td><span class="status accepted">Completed</span></td></tr>
+</table>
+</div>
+</div>
+
+<div class="page" id="purchases"><h1>Supply Purchases</h1><p class="subtitle">Track your seed and fertilizer orders and payment choices.</p><div class="panel"><table id="purchaseTable"><tr><th>Product</th><th>Quantity</th><th>Total</th><th>Payment</th><th>Status</th><th>Action</th></tr></table></div></div><div class="page" id="about"><h1>About KRISHI SETU</h1><div class="panel"><h3>Growing Nepal together</h3><p>Connecting farmers, distributors and buyers through transparent agricultural trade.</p></div></div><div class="page" id="complaints"><h1>Complaints & Support</h1><div class="panel"><form id="complaintForm"><label>Category</label><select id="complaintType"><option>Delivery</option><option>Payment</option><option>Product quality</option><option>Other</option></select><label>Describe your issue</label><textarea id="complaintText" required></textarea><button>Submit complaint</button></form><div id="complaintList"></div></div></div></main>
+</div>
+
+<footer>
+© 2026 KRISHI SETU | Connecting Nepal's Farmers, Growing Nepal's Future.
+</footer>
+
+<dialog id="checkout" class="paydialog"><form id="checkoutForm"><h2 id="checkoutTitle"></h2><p class="paynote" id="checkoutUnit"></p><label>Quantity</label><input id="checkoutQty" type="number" min="1" value="1" required><label>Payment method</label><select id="checkoutPay" aria-label="Payment method"><option>Cash on Delivery</option><option>eSewa</option><option>Khalti</option><option>Credit / Debit Card</option><option>Bank Transfer</option></select><label>Delivery location</label><input id="checkoutLocation" required><p class="note">Delivery fee not yet quoted. No real payment is collected.</p><h3 class="payline paytotal" id="checkoutTotal"></h3><button type="submit">Send order →</button> <button type="button" class="light" onclick="checkout.close()">Cancel</button><p class="paynote">Delivery charges are not yet quoted. No real payment is processed.</p></form></dialog><script>
+function showPage(id, link) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+
+    document.querySelectorAll('.sidebar a').forEach(a => a.classList.remove('active'));
+    (link || Array.from(document.querySelectorAll(".sidebar a")).find(a=>a.getAttribute("onclick").includes("'"+id+"'")))?.classList.add('active'); refresh();
+
+    window.scrollTo(0,0);
+}
+
+function escapeHTML(value) {
+    return String(value).replace(/[&<>"']/g, c => ({
+        '&':'&amp;', '<':'&lt;', '>':'&gt;',
+        '"':'&quot;', "'":'&#39;'
+    })[c]);
+}
+
+let total = 3;
+
+function saveDraft() {
+    alert("Draft saved in this demo.");
+}
+
+document.getElementById('productForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const name = document.getElementById('name').value;
+    const qty = document.getElementById('quantity').value;
+    const price = document.getElementById('price').value;
+    const location = document.getElementById('location').value;
+
+    if (Number(qty) <= 0 || Number(price) <= 0) {
+        alert("Please enter valid quantity and price.");
+        return;
+    }
+
+    const table = document.getElementById('productTable');
+    const row = table.insertRow();
+
+    row.innerHTML = `
+    <td>${escapeHTML(name)}</td>
+    <td>${escapeHTML(qty)} kg</td>
+    <td>Rs. ${escapeHTML(price)}</td>
+    <td>${escapeHTML(location)}</td>
+    <td>
+    <button class="light" onclick="editProduct(this)">Edit</button>
+    <button class="red" onclick="deleteProduct(this)">Delete</button>
+    </td>`;
+
+    total++;
+    document.getElementById('totalProducts').textContent = total;
+
+    alert("Product published!");
+    this.reset();
+    showPage('products');
+});
+
+function editProduct(btn) {
+    const row = btn.closest('tr');
+    const name = prompt("Product name:", row.cells[0].textContent);
+    if(name === null || !name.trim()) return;
+
+    const qty = prompt("Quantity:", parseInt(row.cells[1].textContent));
+    if(qty === null || Number(qty) <= 0) return;
+
+    const price = prompt("Price:", row.cells[2].textContent.replace('Rs. ',''));
+    if(price === null || Number(price) <= 0) return;
+
+    row.cells[0].textContent = name;
+    row.cells[1].textContent = qty + " kg";
+    row.cells[2].textContent = "Rs. " + price;
+}
+
+function deleteProduct(btn) {
+    if(confirm("Delete this product?")) {
+        btn.closest('tr').remove();
+        total--;
+        document.getElementById('totalProducts').textContent = total;
+    }
+}
+
+function orderAction(btn, status) {
+    if(status === 'Rejected' && !confirm("Reject this order?")) return;
+
+    const row = btn.closest('tr');
+    row.cells[3].innerHTML = `<span class="status">${status}</span>`;
+    row.cells[4].textContent = status;
+}
+
+function contact(name) {
+    document.getElementById('chatTitle').textContent = "Chat with " + name;
+    showPage('messages');
+}
+
+function sendMessage() {
+    const input = document.getElementById('message');
+    if(!input.value.trim()) return;
+
+    const p = document.createElement('p');
+    p.className = 'mine';
+    p.textContent = input.value;
+
+    document.getElementById('chatBox').appendChild(p);
+    input.value = '';
+}
+
+const $=id=>document.getElementById(id);
+const catalogue=[['Cauliflower seeds','Seeds','cauliflower फूलकोबी काउली',120,'packet','🌱'],['Tomato seeds','Seeds','tomato tomatoes गोलभेंडा',100,'packet','🌱'],['Seed potatoes','Seeds','potato potatoes आलु',80,'kg','🥔'],['Cabbage seeds','Seeds','cabbage बन्दाकोबी',110,'packet','🌱'],['Urea','Fertilizers','cauliflower tomato potato cabbage काउली आलु',30,'kg','🌿'],['DAP','Fertilizers','cauliflower tomato potato cabbage काउली आलु',55,'kg','🌿'],['MOP (potash)','Fertilizers','cauliflower tomato potato cabbage काउली आलु',45,'kg','🌿'],['Organic compost','Fertilizers','cauliflower tomato potato cabbage काउली आलु',20,'kg','🍂'],['Garden hand tools','Tools','tools',450,'set','🧤']];
+let chosen=0;let purchases=load('farmPurchases',[]), complaints=load('farmComplaints',[]);function load(k,d){try{return JSON.parse(localStorage.getItem(k))||d}catch{return d}}function store(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch{notify('Storage unavailable; changes last for this session.')}}function notify(s){let t=document.createElement('div');t.className='toast';t.textContent=s;document.body.append(t);setTimeout(()=>t.remove(),3200)}
+function renderSupplies(){let q=$('cropSearch').value.trim().toLowerCase(),type=$('supplyType').value;let rows=catalogue.map((r,i)=>({r,i})).filter(({r})=>(type==='all'||r[1]===type)&&r.join(' ').toLowerCase().includes(q));$('supplyCards').innerHTML=rows.map(({r,i})=>`<article class="product"><div class="supplyart">${r[5]}</div><div class="product-info"><p>${r[1]} · Demo supplier</p><h3>${r[0]}</h3><p>Rs. ${r[3]} / ${r[4]}</p><button onclick="openCheckout(${i})">Place order →</button></div></article>`).join('')||'<p>No matching supplies. Try cauliflower or tomato.</p>'}
+function openCheckout(i){chosen=i;let r=catalogue[i];$('checkoutTitle').textContent=r[0];$('checkoutUnit').textContent=`Rs. ${r[3]} per ${r[4]}`;$('checkoutForm').reset();updateTotal();$('checkout').showModal()}function updateTotal(){$('checkoutTotal').textContent='Product subtotal: Rs. '+(Number($('checkoutQty').value)*catalogue[chosen][3]).toLocaleString()}$('checkoutQty').oninput=updateTotal;$('checkoutForm').onsubmit=e=>{e.preventDefault();let r=catalogue[chosen],q=Number($('checkoutQty').value);if(!Number.isSafeInteger(q)||q<1)return;purchases.push({name:r[0],qty:q+' '+r[4],total:q*r[3],pay:$('checkoutPay').value,location:$('checkoutLocation').value,received:false});store('farmPurchases',purchases);$('checkout').close();showPage('purchases');notify('Supply order saved locally (demo).')};function receipt(i){purchases[i].received=!purchases[i].received;store('farmPurchases',purchases);refresh()}
+function refresh(){let rows=Array.from($('productTable').rows).slice(1),sum=rows.reduce((s,r)=>s+(parseFloat(r.cells[1].textContent)||0),0);$('stockTotal').textContent=sum.toLocaleString()+' kg';$('totalProducts').textContent=rows.length;$('farmGraph').innerHTML=rows.map(r=>`<p>${escapeHTML(r.cells[0].textContent)} · ${escapeHTML(r.cells[1].textContent)}</p><div class="bartrack"><div class="barfill" style="width:${sum?100*parseFloat(r.cells[1].textContent)/sum:0}%"></div></div>`).join('');let orders=Array.from($('orderTable').rows).slice(1);let sent=orders.filter(r=>r.cells[3].textContent==='Sent').length, pct=orders.length?Math.round(sent/orders.length*100):0;$('farmRing').style.setProperty('--pct',pct+'%');$('farmPercent').textContent=pct+'%';$('progressText').textContent=sent+' of '+orders.length+' orders sent';$('totalOrders').textContent=orders.filter(r=>r.cells[3].textContent==='Pending').length;let recent=document.querySelector('#overview table');while(recent.rows.length>1)recent.deleteRow(1);orders.forEach(r=>{let row=recent.insertRow();for(let i=0;i<4;i++)row.insertCell().textContent=r.cells[i].textContent});let t=$('purchaseTable');while(t.rows.length>1)t.deleteRow(1);purchases.forEach((r,i)=>{let row=t.insertRow();[r.name,r.qty,'Rs. '+r.total,r.pay,r.received?'Received':'Ordered · unpaid / unverified'].forEach(v=>row.insertCell().textContent=v);let b=document.createElement('button');b.textContent=r.received?'Undo receipt':'Mark received';b.onclick=()=>receipt(i);row.insertCell().append(b)});$('complaintList').textContent=complaints.map(c=>c.type+': '+c.text+' (saved locally)').join(' | ')}
+orderAction=function(btn,status){let row=btn.closest('tr');if(status==='Rejected'&&!confirm('Reject this order?'))return;row.cells[3].textContent=status;row.cells[4].innerHTML=status==='Accepted'?`<button onclick="orderAction(this,'Sent')">Send products →</button>`:status==='Sent'?`<button class="light" onclick="orderAction(this,'Accepted')">Undo sent</button>`:status;refresh();notify('Order status: '+status+' (demo)')};
+$('orderTable').rows[2].cells[4].innerHTML=`<button onclick="orderAction(this,'Sent')">Send products →</button>`;
+for(const key of ['editProduct','deleteProduct']){let old=window[key];window[key]=function(btn){old(btn);refresh()}}$('complaintForm').onsubmit=e=>{e.preventDefault();complaints.push({type:$('complaintType').value,text:$('complaintText').value});store('farmComplaints',complaints);e.target.reset();refresh();notify('Complaint saved locally')};renderSupplies();refresh();
+
+</script>
+
+</body>
+</html>
