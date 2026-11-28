@@ -1,0 +1,85 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KrishiSetu | From Farm to Future</title>
+
+<link rel="stylesheet" href="/assets/css/home.css">
+</head>
+
+<body>
+
+<header>
+    <div class="logo">KRISHI<span>SETU</span></div>
+</header>
+
+<section class="hero">
+    <h1>From Farm <span>to Future.</span></h1>
+    <p>
+        Connecting farmers, transporters and distributors
+        for a better agricultural network.
+    </p>
+</section>
+
+<section class="cards" id="cards"></section>
+
+<footer>
+    © 2026 KrishiSetu. Connecting Agriculture, Empowering People.
+</footer>
+
+<!-- Login / Registration Modal -->
+
+<div class="modal" id="modal">
+    <div class="modal-box">
+        <span class="close" id="closeModalButton">&times;</span>
+
+        <h2 id="formTitle">Welcome Back</h2>
+        <p class="subtitle" id="formSubtitle">
+            Login to your KrishiSetu account.
+        </p>
+
+        <form id="authForm">
+            <input
+                type="text"
+                id="name"
+                placeholder="Full Name"
+                style="display:none"
+            >
+
+            <input
+                type="email"
+                id="email"
+                placeholder="Email Address"
+                required
+            >
+
+            <input
+                type="password"
+                id="password"
+                placeholder="Password (minimum 8 characters)"
+                minlength="8"
+                required
+            >
+
+            <button type="submit" class="submit" id="submitBtn">
+                Login
+            </button>
+        </form>
+
+        <p id="message"></p>
+
+        <div class="switch">
+            <span id="switchText">Don't have an account?</span>
+            <span id="switchButton">
+                Create Account
+            </span>
+        </div>
+    </div>
+</div>
+
+<script src="/assets/js/auth.js"></script>
+
+</body>
+</html>

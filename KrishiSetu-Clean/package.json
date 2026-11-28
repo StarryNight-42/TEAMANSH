@@ -1,0 +1,11 @@
+{
+  "name": "krishisetu",
+  "version": "1.6.0",
+  "private": true,
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=22.13.0"
+  }
+}
